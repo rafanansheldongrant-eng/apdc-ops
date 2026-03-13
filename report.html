@@ -5,153 +5,237 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>APDC — Work Report</title>
 <style>
-:root{--org:#f97316;--org-d:#ea6e0a;--nvy:#0f172a;--nvy2:#1e293b;--card:#1e293b;--txt:#f1f5f9;--mut:#94a3b8;--grn:#22c55e;--red:#ef4444;--yel:#eab308;--blu:#3b82f6;--r:12px}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--nvy);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center}
-.screen{display:none;width:100%;max-width:480px;padding:20px;min-height:100vh;flex-direction:column}
-.screen.active{display:flex}
-.logo-area{text-align:center;padding:24px 0 14px}
-.logo-badge{width:70px;height:70px;background:var(--org);border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:23px;font-weight:900;color:#fff;cursor:pointer;user-select:none;box-shadow:0 6px 20px rgba(249,115,22,.4)}
-.logo-title{font-size:20px;font-weight:800;margin-top:10px}
-.logo-sub{color:var(--mut);font-size:12px;margin-top:3px}
-.prog-bar{width:100%;height:4px;background:var(--nvy2);border-radius:2px;margin:10px 0 16px}
-.prog-fill{height:100%;background:var(--org);border-radius:2px;transition:width .3s}
-.step-lbl{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.step-ttl{font-size:18px;font-weight:700;margin-bottom:16px}
-.card-grid{display:grid;gap:9px}
-.card-btn{background:var(--card);border:2px solid transparent;border-radius:var(--r);padding:14px 16px;color:var(--txt);cursor:pointer;text-align:left;font-size:14px;font-weight:600;transition:all .15s;display:flex;align-items:center;gap:11px;width:100%}
-.card-btn:hover,.card-btn.sel{border-color:var(--org);background:rgba(249,115,22,.1)}
-.card-ic{font-size:20px}
-/* Mode cards */
-.mode-grid{display:grid;gap:11px}
-.mode-card{background:var(--card);border:2px solid transparent;border-radius:var(--r);padding:18px 16px;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:14px;width:100%;text-align:left}
-.mode-ic{font-size:32px;flex-shrink:0}
-.mode-ttl{font-size:15px;font-weight:700;margin-bottom:3px}
-.mode-sub{font-size:12px;color:var(--mut)}
-.mode-card.checklist:hover,.mode-card.checklist.sel{border-color:var(--grn);background:rgba(34,197,94,.08)}
-.mode-card.workorder:hover,.mode-card.workorder.sel{border-color:var(--blu);background:rgba(59,130,246,.08)}
-.mode-card.flag:hover,.mode-card.flag.sel{border-color:var(--red);background:rgba(239,68,68,.08)}
-/* Camera */
-.cam-wrap{position:relative;width:100%;border-radius:var(--r);overflow:hidden;background:#000;min-height:240px}
-#videoEl{width:100%;display:block;transform:scaleX(-1)}
-#canvasEl{display:none}
-.cam-ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.face-ring{width:140px;height:172px;border:3px solid rgba(249,115,22,.8);border-radius:50%}
-#prevImg{width:100%;border-radius:var(--r);display:none}
-.gps-bar{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:8px;padding:10px 13px;margin-top:9px;font-size:12px}
-.gps-dot{width:9px;height:9px;border-radius:50%;background:var(--mut);flex-shrink:0}
-.gps-dot.acq{background:var(--yel);animation:pulse 1s infinite}
-.gps-dot.got{background:var(--grn)}
-.gps-dot.err{background:var(--red)}
+:root{
+  --org:#f97316;--org-d:#ea6e0a;--nvy:#0f172a;--nvy2:#1e293b;
+  --card:#1e293b;--card2:#243044;--txt:#f1f5f9;--mut:#94a3b8;
+  --grn:#22c55e;--red:#ef4444;--yel:#eab308;--blu:#3b82f6;--r:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--nvy);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+.screen{display:none;width:100%;max-width:500px;padding:20px;min-height:100vh;flex-direction:column;}
+.screen.active{display:flex;}
+.logo-area{text-align:center;padding:22px 0 14px;}
+.logo-badge{width:64px;height:64px;background:var(--org);border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff;cursor:pointer;user-select:none;box-shadow:0 8px 24px rgba(249,115,22,.4);}
+.logo-title{font-size:19px;font-weight:800;margin-top:9px;}
+.logo-sub{color:var(--mut);font-size:11px;margin-top:3px;}
+.step-lbl{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.step-ttl{font-size:19px;font-weight:700;margin-bottom:16px;}
+.card-grid{display:grid;gap:9px;}
+.card-btn{background:var(--card);border:2px solid transparent;border-radius:var(--r);padding:14px 16px;color:var(--txt);cursor:pointer;text-align:left;font-size:14px;font-weight:600;transition:all .15s;display:flex;align-items:center;gap:11px;width:100%;}
+.card-btn:hover,.card-btn.sel{border-color:var(--org);background:rgba(249,115,22,.1);}
+.card-ic{font-size:20px;flex-shrink:0;}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mode-btn{background:var(--card);border:2px solid transparent;border-radius:var(--r);padding:20px 10px;color:var(--txt);cursor:pointer;text-align:center;font-size:12px;font-weight:700;transition:all .15s;}
+.mode-btn .mic{font-size:32px;display:block;margin-bottom:8px;}
+.mode-btn.daily:hover,.mode-btn.daily.sel{border-color:var(--grn);background:rgba(34,197,94,.1);}
+.mode-btn.special:hover,.mode-btn.special.sel{border-color:var(--blu);background:rgba(59,130,246,.1);}
+.btn-p{background:var(--org);color:#fff;border:none;border-radius:var(--r);padding:14px;width:100%;font-size:15px;font-weight:700;cursor:pointer;margin-top:12px;transition:background .15s;}
+.btn-p:hover{background:var(--org-d);}
+.btn-p:disabled{background:#334155;color:var(--mut);cursor:not-allowed;}
+.btn-s{background:transparent;color:var(--mut);border:1px solid #334155;border-radius:var(--r);padding:11px;width:100%;font-size:13px;cursor:pointer;margin-top:8px;}
+.back-btn{background:none;border:none;color:var(--mut);cursor:pointer;font-size:12px;padding:0;margin-bottom:14px;display:flex;align-items:center;gap:5px;}
+.gps-bar{display:flex;align-items:flex-start;gap:9px;background:var(--card);border-radius:9px;padding:11px 13px;margin:10px 0;font-size:12px;}
+.gps-dot{width:10px;height:10px;border-radius:50%;background:var(--mut);flex-shrink:0;margin-top:3px;}
+.gps-dot.acq{background:var(--yel);animation:pulse 1s infinite;}
+.gps-dot.got{background:var(--grn);}
+.gps-dot.err{background:var(--red);}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-/* Buttons */
-.btn-p{background:var(--org);color:#fff;border:none;border-radius:var(--r);padding:14px;width:100%;font-size:15px;font-weight:700;cursor:pointer;margin-top:12px;transition:background .15s}
-.btn-p:hover{background:var(--org-d)}
-.btn-p:disabled{background:#334155;color:var(--mut);cursor:not-allowed}
-.btn-s{background:transparent;color:var(--mut);border:1px solid #334155;border-radius:var(--r);padding:10px;width:100%;font-size:13px;cursor:pointer;margin-top:7px}
-.btn-grn{background:var(--grn)!important}
-.btn-red{background:var(--red)!important}
-.back-btn{background:none;border:none;color:var(--mut);cursor:pointer;font-size:12px;padding:0;margin-bottom:12px;display:flex;align-items:center;gap:5px}
-/* Form elements */
-.form-group{margin-bottom:14px}
-.form-lbl{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;display:block}
-.inp{width:100%;background:var(--nvy2);border:1px solid #334155;border-radius:8px;padding:11px 13px;color:var(--txt);font-size:14px}
-.inp:focus{outline:none;border-color:var(--org)}
-textarea.inp{resize:none;min-height:80px}
-.sel-inp{-webkit-appearance:none;appearance:none;background:var(--nvy2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E") no-repeat right 12px center;padding-right:36px}
-/* Photo capture */
-.photo-area{background:var(--nvy2);border:2px dashed #334155;border-radius:var(--r);padding:20px;text-align:center;cursor:pointer;transition:border-color .15s}
-.photo-area:hover{border-color:var(--org)}
-.photo-area img{width:100%;border-radius:8px;display:none}
-.photo-area.has-photo{border-style:solid;border-color:var(--org)}
-/* Checklist */
-.cl-category{margin-bottom:18px}
-.cl-cat-ttl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--org);margin-bottom:9px;padding-bottom:6px;border-bottom:1px solid #1e293b}
-.cl-item{background:var(--nvy2);border-radius:8px;padding:11px 13px;margin-bottom:7px;display:flex;align-items:center;gap:10px}
-.cl-txt{flex:1;font-size:13px;line-height:1.4}
-.cl-btns{display:flex;gap:5px;flex-shrink:0}
-.cl-btn{width:30px;height:30px;border-radius:6px;border:1px solid #334155;background:transparent;cursor:pointer;font-size:14px;transition:all .15s;display:flex;align-items:center;justify-content:center}
-.cl-btn.pass{background:rgba(34,197,94,.2);border-color:var(--grn)}
-.cl-btn.fail{background:rgba(239,68,68,.2);border-color:var(--red)}
-.cl-btn.na{background:rgba(148,163,184,.2);border-color:var(--mut)}
-/* Classification badges */
-.class-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
-.class-btn{border-radius:8px;border:2px solid transparent;padding:11px 6px;cursor:pointer;text-align:center;font-size:12px;font-weight:700;transition:all .15s;background:var(--nvy2)}
-.class-btn.emg:hover,.class-btn.emg.sel{border-color:var(--red);background:rgba(239,68,68,.1);color:var(--red)}
-.class-btn.urg:hover,.class-btn.urg.sel{border-color:var(--yel);background:rgba(234,179,8,.1);color:var(--yel)}
-.class-btn.rtn:hover,.class-btn.rtn.sel{border-color:var(--grn);background:rgba(34,197,94,.1);color:var(--grn)}
-/* Review */
-.rv-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid #1e293b;font-size:13px;gap:12px}
-.rv-row:last-child{border-bottom:none}
-.rv-lbl{color:var(--mut);flex-shrink:0}
-.rv-val{font-weight:600;text-align:right;word-break:break-word}
-.rv-face{width:68px;height:68px;border-radius:9px;object-fit:cover;border:2px solid var(--org)}
-/* Loader / Result */
-.spinner-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px}
-.spinner{width:44px;height:44px;border:4px solid #334155;border-top-color:var(--org);border-radius:50%;animation:spin .8s linear infinite}
+.gps-info{flex:1;}
+.gps-status{font-weight:600;margin-bottom:2px;}
+.gps-addr{font-size:11px;color:var(--mut);line-height:1.4;}
+.inp-lbl{font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+.inp{width:100%;background:var(--card);border:1.5px solid #334155;border-radius:8px;padding:10px 12px;color:var(--txt);font-size:14px;margin-bottom:12px;}
+.inp:focus{outline:none;border-color:var(--org);}
+textarea.inp{resize:vertical;min-height:80px;font-family:inherit;}
+.spinner-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
+.spinner{width:44px;height:44px;border:4px solid #334155;border-top-color:var(--org);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
-.suc-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 0}
-.suc-ic{font-size:58px;margin-bottom:13px}
-.suc-ttl{font-size:20px;font-weight:800;margin-bottom:7px}
-.alert{border-radius:8px;padding:10px 13px;margin-top:9px;font-size:13px}
-.alert.ok{background:rgba(34,197,94,.15);color:#86efac;border:1px solid rgba(34,197,94,.3)}
-.alert.err{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)}
-/* Admin */
-.adm-panel{display:none;position:fixed;inset:0;background:var(--nvy);z-index:200;overflow-y:auto;padding:20px}
-.adm-panel.open{display:block}
-.adm-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.adm-ttl{font-size:16px;font-weight:800}
-.adm-close{background:#334155;border:none;color:var(--txt);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px}
-.adm-sec{margin-bottom:20px}
-.adm-sec-ttl{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--org);margin-bottom:9px}
-.tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-.tag{background:#334155;border-radius:6px;padding:4px 8px;font-size:12px;display:flex;align-items:center;gap:4px}
-.tag-x{cursor:pointer;color:var(--mut);font-size:14px}
-.tag-x:hover{color:var(--red)}
-.add-row{display:flex;gap:6px}
-.add-inp{flex:1;margin:0!important}
-.add-btn{background:var(--org);border:none;color:#fff;border-radius:8px;padding:0 13px;cursor:pointer;font-weight:700;font-size:17px}
-/* Photo input (hidden) */
-#photoInput1,#photoInput2,#photoInputF{display:none}
+.suc-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 0;}
+.suc-ic{font-size:56px;margin-bottom:12px;}
+.suc-ttl{font-size:20px;font-weight:800;margin-bottom:6px;}
+.suc-sub{color:var(--mut);font-size:13px;margin-bottom:18px;}
+.alert{border-radius:8px;padding:10px 13px;margin-top:10px;font-size:12px;}
+.alert.ok{background:rgba(34,197,94,.15);color:#86efac;border:1px solid rgba(34,197,94,.3);}
+.alert.err{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3);}
+.alert.warn{background:rgba(234,179,8,.15);color:#fde047;border:1px solid rgba(234,179,8,.3);}
+/* ── TASK LIST ── */
+.task-card{background:var(--card);border-radius:var(--r);margin-bottom:10px;overflow:hidden;border:1.5px solid transparent;transition:border-color .2s;}
+.task-card.done{border-color:var(--grn);}
+.task-card.partial{border-color:var(--yel);}
+.task-hd{display:flex;align-items:center;gap:10px;padding:13px 15px;cursor:pointer;}
+.task-num{width:28px;height:28px;border-radius:50%;background:var(--nvy2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--mut);flex-shrink:0;}
+.task-card.done .task-num{background:rgba(34,197,94,.2);color:var(--grn);}
+.task-name{flex:1;font-size:14px;font-weight:600;}
+.task-status{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.ts-pending{background:#334155;color:var(--mut);}
+.ts-partial{background:rgba(234,179,8,.2);color:var(--yel);}
+.ts-done{background:rgba(34,197,94,.2);color:var(--grn);}
+.task-body{display:none;padding:0 15px 14px;border-top:1px solid #2d3f55;}
+.task-body.open{display:block;}
+.photo-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.photo-slot{background:var(--nvy);border-radius:9px;overflow:hidden;position:relative;min-height:110px;cursor:pointer;border:2px dashed #334155;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;transition:border-color .15s;}
+.photo-slot:hover{border-color:var(--org);}
+.photo-slot.has-photo{border-style:solid;border-color:var(--grn);}
+.photo-slot img{width:100%;height:110px;object-fit:cover;display:block;}
+.photo-slot .slot-lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;position:absolute;top:6px;left:7px;padding:2px 7px;border-radius:4px;}
+.slot-lbl.before{background:#fcd34d;color:#111;}
+.slot-lbl.after{background:#60a5fa;color:#111;}
+.slot-lbl.done-lbl{background:rgba(34,197,94,.8);color:#fff;}
+.slot-add{font-size:28px;color:#4b5563;}
+.slot-add-txt{font-size:10px;color:var(--mut);font-weight:600;}
+.photo-slot .slot-del{position:absolute;top:5px;right:5px;background:rgba(239,68,68,.9);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+/* selfie strip */
+.cam-wrap{position:relative;width:100%;border-radius:var(--r);overflow:hidden;background:#000;min-height:220px;}
+#videoEl{width:100%;display:block;transform:scaleX(-1);}
+#canvasEl{display:none;}
+.cam-ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.face-ring{width:130px;height:160px;border:3px solid rgba(249,115,22,.8);border-radius:50%;}
+#prevImg{width:100%;border-radius:var(--r);display:none;}
+/* summary */
+.rv-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1e293b;font-size:13px;}
+.rv-row:last-child{border-bottom:none;}
+.rv-lbl{color:var(--mut);}
+.rv-val{font-weight:600;max-width:220px;text-align:right;font-size:12px;}
+.task-summary-row{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid #243044;font-size:12px;}
+.task-summary-row:last-child{border-bottom:none;}
+.ts-photos{display:flex;gap:4px;}
+.ts-thumb{width:32px;height:32px;border-radius:5px;object-fit:cover;border:1.5px solid var(--grn);}
+/* hidden file inputs */
+input[type=file]{display:none;}
 </style>
 </head>
 <body>
 
-<!-- S0: Landing / Mode Select -->
-<div class="screen active" id="s0">
-  <div class="logo-area">
-    <div class="logo-badge" id="logoTap">APDC</div>
-    <div class="logo-title">Work Report System</div>
-    <div class="logo-sub">Adam's Projects Development Corp</div>
+<!-- LOADING -->
+<div class="screen active" id="sLoad">
+  <div class="spinner-wrap">
+    <div class="spinner"></div>
+    <div style="font-weight:700;">Loading Config...</div>
+    <div style="color:var(--mut);font-size:12px;" id="loadMsg">Fetching buildings & tasks</div>
   </div>
-  <div style="margin:10px 0 6px;font-size:13px;color:var(--mut);text-align:center">Select report type to begin</div>
-  <div class="mode-grid" style="margin-bottom:auto">
-    <button class="mode-card checklist" onclick="selMode('checklist')">
-      <span class="mode-ic">📋</span>
-      <div><div class="mode-ttl">Daily PM Checklist</div><div class="mode-sub">Inspect building systems — generator, electrical, fire, locks, grounds</div></div>
-    </button>
-    <button class="mode-card workorder" onclick="selMode('workorder')">
-      <span class="mode-ic">🔧</span>
-      <div><div class="mode-ttl">Work Order Report</div><div class="mode-sub">Report completed repair or maintenance job with before/after photos</div></div>
-    </button>
-    <button class="mode-card flag" onclick="selMode('flag')">
-      <span class="mode-ic">🚩</span>
-      <div><div class="mode-ttl">Flag a Repair</div><div class="mode-sub">Report an issue that needs FM attention — urgent or emergency</div></div>
-    </button>
-  </div>
-  <div style="margin-top:16px;font-size:11px;color:#334155;text-align:center">All reports require GPS-verified selfie</div>
 </div>
 
-<!-- S1: Selfie Verify -->
-<div class="screen" id="s1">
-  <button class="back-btn" onclick="stopCam();goTo(0)">← Back</button>
-  <div class="prog-bar"><div class="prog-fill" id="pf1" style="width:20%"></div></div>
-  <div class="step-lbl" id="sl1">Step 1</div>
-  <div class="step-ttl">Identity Verification</div>
-  <div style="background:var(--nvy2);border-radius:9px;padding:10px 13px;margin-bottom:13px;font-size:12px;color:var(--mut)">
-    📍 Your GPS location + selfie proves you are physically on-site. This cannot be bypassed.
+<!-- S0: Landing -->
+<div class="screen" id="s0">
+  <div class="logo-area">
+    <div class="logo-badge" id="logoTap">APDC</div>
+    <div class="logo-title">Work Report</div>
+    <div class="logo-sub">Adam's Projects Development Corp</div>
   </div>
-  <div class="cam-wrap" id="camWrap">
+  <div style="flex:1;display:flex;flex-direction:column;gap:8px;padding:6px 0;">
+    <div style="background:var(--card);border-radius:var(--r);padding:13px 15px;display:flex;gap:11px;align-items:flex-start;">
+      <span style="font-size:22px;">📋</span>
+      <div>
+        <div style="font-weight:700;font-size:13px;margin-bottom:3px;">Two types of reports</div>
+        <div style="color:var(--mut);font-size:11px;line-height:1.5;">
+          <strong style="color:var(--grn);">Daily Tasks</strong> — your regular scope of work per building (before &amp; after photos per task)<br>
+          <strong style="color:var(--blu);">Special Task</strong> — one-off jobs requested beyond your daily routine
+        </div>
+      </div>
+    </div>
+    <div style="background:var(--card);border-radius:var(--r);padding:13px 15px;display:flex;gap:11px;align-items:flex-start;" id="cfgStatus">
+      <span style="font-size:22px;" id="cfgIc">⏳</span>
+      <div>
+        <div style="font-weight:700;font-size:13px;" id="cfgTitle">Loading config...</div>
+        <div style="color:var(--mut);font-size:11px;" id="cfgSub"></div>
+      </div>
+    </div>
+  </div>
+  <button class="btn-p" onclick="goTo(1)">▶ START REPORT</button>
+  <button class="btn-s" onclick="refreshConfig()">↺ Refresh Config</button>
+</div>
+
+<!-- S1: Worker Select -->
+<div class="screen" id="s1">
+  <button class="back-btn" onclick="goTo(0)">← Back</button>
+  <div class="step-lbl">Step 1 of 5</div>
+  <div class="step-ttl">Who are you?</div>
+  <div class="card-grid" id="workerList"></div>
+</div>
+
+<!-- S2: Building Select -->
+<div class="screen" id="s2">
+  <button class="back-btn" onclick="goTo(1)">← Back</button>
+  <div class="step-lbl">Step 2 of 5</div>
+  <div class="step-ttl">Which building?</div>
+  <div class="card-grid" id="buildingList"></div>
+</div>
+
+<!-- S3: Mode Select -->
+<div class="screen" id="s3">
+  <button class="back-btn" onclick="goTo(2)">← Back</button>
+  <div class="step-lbl">Step 3 of 5</div>
+  <div class="step-ttl">What type of report?</div>
+  <div class="mode-grid">
+    <button class="mode-btn daily" id="modeDaily" onclick="selMode('daily',this)">
+      <span class="mic">📋</span>
+      Daily Tasks
+      <div style="font-size:10px;font-weight:400;margin-top:5px;color:var(--mut);">Regular scope of work</div>
+    </button>
+    <button class="mode-btn special" id="modeSpecial" onclick="selMode('special',this)">
+      <span class="mic">⚡</span>
+      Special Task
+      <div style="font-size:10px;font-weight:400;margin-top:5px;color:var(--mut);">One-off request</div>
+    </button>
+  </div>
+  <button class="btn-p" id="modeNext" disabled onclick="goTo(4)">CONTINUE →</button>
+</div>
+
+<!-- S4: Tasks / Special Form -->
+<div class="screen" id="s4">
+  <button class="back-btn" id="s4back" onclick="goTo(3)">← Back</button>
+  <div class="step-lbl">Step 4 of 5</div>
+  <div class="step-ttl" id="s4title">Daily Tasks</div>
+
+  <!-- DAILY TASK LIST -->
+  <div id="dailySection">
+    <div style="font-size:12px;color:var(--mut);margin-bottom:12px;line-height:1.5;">
+      For each task: tap to expand → take <strong style="color:#fcd34d;">Before</strong> photo → do the work → take <strong style="color:#60a5fa;">After</strong> photo.
+    </div>
+    <div id="taskList"></div>
+    <div id="noTasksMsg" style="display:none;background:var(--card);border-radius:var(--r);padding:20px;text-align:center;color:var(--mut);font-size:13px;">
+      No tasks configured for this building.<br>
+      <span style="font-size:11px;">Add tasks in the Config tab of your Google Sheet.</span>
+    </div>
+  </div>
+
+  <!-- SPECIAL TASK FORM -->
+  <div id="specialSection" style="display:none;">
+    <div style="font-size:12px;color:var(--mut);margin-bottom:14px;">For one-off requests assigned to you beyond your regular daily work.</div>
+    <div class="inp-lbl">Task / Job Description *</div>
+    <textarea class="inp" id="spDesc" placeholder="e.g. Clean the roof gutters, Replace broken window latch in Meeting Room 2..."></textarea>
+    <div class="inp-lbl">Requested by</div>
+    <input class="inp" id="spReqBy" placeholder="FM Name / Text Message / Walk-in Request">
+    <div class="inp-lbl">Location in Building</div>
+    <input class="inp" id="spLocation" placeholder="e.g. Roof, Meeting Room 2, Parking Area">
+    <div class="inp-lbl">Before Photo *</div>
+    <div class="photo-row" style="grid-template-columns:1fr;">
+      <div class="photo-slot" id="spBeforeSlot" onclick="triggerPhoto('spBefore')">
+        <span class="slot-lbl before">BEFORE</span>
+        <span class="slot-add">📷</span>
+        <span class="slot-add-txt">Tap to take / upload</span>
+      </div>
+    </div>
+    <div class="inp-lbl">After Photo</div>
+    <div class="photo-row" style="grid-template-columns:1fr;">
+      <div class="photo-slot" id="spAfterSlot" onclick="triggerPhoto('spAfter')">
+        <span class="slot-lbl after">AFTER</span>
+        <span class="slot-add">📷</span>
+        <span class="slot-add-txt">Take after completing the work</span>
+      </div>
+    </div>
+    <div class="inp-lbl">Additional Notes</div>
+    <textarea class="inp" id="spNotes" placeholder="Materials used, time taken, any issues..."></textarea>
+  </div>
+  <button class="btn-p" id="s4Next" onclick="goTo(5)">CONTINUE →</button>
+</div>
+
+<!-- S5: GPS Selfie -->
+<div class="screen" id="s5">
+  <button class="back-btn" onclick="goTo(4)">← Back</button>
+  <div class="step-lbl">Step 5 of 5</div>
+  <div class="step-ttl">Verify Location & Take Selfie</div>
+  <div class="cam-wrap">
     <video id="videoEl" autoplay playsinline muted></video>
     <div class="cam-ov" id="camOv"><div class="face-ring"></div></div>
   </div>
@@ -159,441 +243,329 @@ textarea.inp{resize:none;min-height:80px}
   <img id="prevImg" alt="selfie">
   <div class="gps-bar">
     <div class="gps-dot acq" id="gpsDot"></div>
-    <span id="gpsText">Acquiring GPS location...</span>
+    <div class="gps-info">
+      <div class="gps-status" id="gpsStatus">Acquiring GPS...</div>
+      <div class="gps-addr" id="gpsAddr"></div>
+    </div>
   </div>
+  <div style="font-size:11px;color:var(--mut);text-align:center;margin-bottom:8px;">GPS location + address are verified and saved with your report</div>
   <button class="btn-p" id="captBtn" onclick="captureSelfie()">📷 TAKE SELFIE</button>
-  <button class="btn-s" id="retakeBtn" onclick="retake()" style="display:none">↺ Retake</button>
-  <button class="btn-p" id="selfieNext" disabled onclick="goTo(2)">CONTINUE →</button>
+  <button class="btn-s" id="retakeBtn" onclick="retake()" style="display:none;">↺ Retake</button>
+  <button class="btn-p" id="selfieNext" disabled onclick="goTo(6)" style="margin-top:6px;">REVIEW & SUBMIT →</button>
 </div>
 
-<!-- S2: Worker -->
-<div class="screen" id="s2">
-  <button class="back-btn" onclick="goTo(1)">← Back</button>
-  <div class="prog-bar"><div class="prog-fill" id="pf2" style="width:40%"></div></div>
-  <div class="step-lbl" id="sl2">Step 2</div>
-  <div class="step-ttl">Who are you?</div>
-  <div class="card-grid" id="workerList"></div>
-</div>
-
-<!-- S3: Building -->
-<div class="screen" id="s3">
-  <button class="back-btn" onclick="goTo(2)">← Back</button>
-  <div class="prog-bar"><div class="prog-fill" id="pf3" style="width:60%"></div></div>
-  <div class="step-lbl" id="sl3">Step 3</div>
-  <div class="step-ttl">Which building?</div>
-  <div class="card-grid" id="buildingList"></div>
-</div>
-
-<!-- S4-CHECKLIST: PM Checklist -->
-<div class="screen" id="s4cl">
-  <button class="back-btn" onclick="goTo(3)">← Back</button>
-  <div class="prog-bar"><div class="prog-fill" style="width:80%"></div></div>
-  <div class="step-lbl">Step 4 — Daily PM Checklist</div>
-  <div class="step-ttl">Building Inspection</div>
-  <div id="clItems" style="overflow-y:auto;flex:1;margin-bottom:12px"></div>
-  <div class="form-group">
-    <label class="form-lbl">Overall Notes / Observations</label>
-    <textarea class="inp" id="clNotes" placeholder="Any issues observed, items needing follow-up..."></textarea>
-  </div>
-  <button class="btn-p" onclick="goTo(5)">REVIEW & SUBMIT →</button>
-</div>
-
-<!-- S4-WORKORDER: Work Order Report -->
-<div class="screen" id="s4wo">
-  <button class="back-btn" onclick="goTo(3)">← Back</button>
-  <div class="prog-bar"><div class="prog-fill" style="width:80%"></div></div>
-  <div class="step-lbl">Step 4 — Work Order Report</div>
-  <div class="step-ttl">Job Details</div>
-  <div style="overflow-y:auto;flex:1;padding-bottom:10px">
-    <div class="form-group">
-      <label class="form-lbl">Work Order # (optional)</label>
-      <input class="inp" id="woNum" placeholder="e.g. WO-2024-001" type="text">
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">Classification</label>
-      <div class="class-grid">
-        <button class="class-btn emg" onclick="selClass('Emergency',this)">🚨 Emergency</button>
-        <button class="class-btn urg" onclick="selClass('Urgent',this)">⚠️ Urgent</button>
-        <button class="class-btn rtn" onclick="selClass('Routine',this)">✅ Routine</button>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">Work Type</label>
-      <select class="inp sel-inp" id="woType">
-        <option value="">Select type...</option>
-        <option>Electrical</option>
-        <option>Plumbing</option>
-        <option>Generator</option>
-        <option>Grounds / Landscaping</option>
-        <option>Locks / Security</option>
-        <option>Fire Safety</option>
-        <option>General Maintenance</option>
-        <option>Other</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">Location in Building</label>
-      <input class="inp" id="woLoc" placeholder="e.g. Main hall, Restroom 1, Perimeter fence..." type="text">
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">Description of Work Done</label>
-      <textarea class="inp" id="woDesc" placeholder="Describe what was repaired or maintained..."></textarea>
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">Before Photo</label>
-      <div class="photo-area" id="bfArea" onclick="document.getElementById('photoInput1').click()">
-        <div id="bfPlaceholder">📷 Tap to take Before photo</div>
-        <img id="bfImg" alt="before">
-      </div>
-      <input type="file" id="photoInput1" accept="image/*" capture="environment" onchange="handlePhoto(this,'bfImg','bfArea','bfPlaceholder',true)">
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">Materials Used</label>
-      <input class="inp" id="woMats" placeholder="e.g. 2x fuse 15A, 1m PVC pipe..." type="text">
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">After Photo</label>
-      <div class="photo-area" id="afArea" onclick="document.getElementById('photoInput2').click()">
-        <div id="afPlaceholder">📷 Tap to take After photo</div>
-        <img id="afImg" alt="after">
-      </div>
-      <input type="file" id="photoInput2" accept="image/*" capture="environment" onchange="handlePhoto(this,'afImg','afArea','afPlaceholder',true)">
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">Job Status</label>
-      <select class="inp sel-inp" id="woStatus">
-        <option value="">Select status...</option>
-        <option>Completed</option>
-        <option>In Progress</option>
-        <option>Needs FM Attention</option>
-        <option>Parts Needed</option>
-      </select>
-    </div>
-  </div>
-  <button class="btn-p" onclick="goTo(5)">REVIEW & SUBMIT →</button>
-</div>
-
-<!-- S4-FLAG: Flag Repair -->
-<div class="screen" id="s4fl">
-  <button class="back-btn" onclick="goTo(3)">← Back</button>
-  <div class="prog-bar"><div class="prog-fill" style="width:80%"></div></div>
-  <div class="step-lbl">Step 4 — Flag a Repair</div>
-  <div class="step-ttl">Report an Issue</div>
-  <div style="overflow-y:auto;flex:1;padding-bottom:10px">
-    <div class="form-group">
-      <label class="form-lbl">Urgency Level</label>
-      <div class="class-grid">
-        <button class="class-btn emg" onclick="selUrgency('Emergency',this)">🚨 Emergency</button>
-        <button class="class-btn urg" onclick="selUrgency('Urgent',this)">⚠️ Urgent</button>
-        <button class="class-btn rtn" onclick="selUrgency('Routine',this)">🔵 Routine</button>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">Issue Category</label>
-      <select class="inp sel-inp" id="flCat">
-        <option value="">Select category...</option>
-        <option>Electrical Problem</option>
-        <option>Plumbing / Leak</option>
-        <option>Generator Issue</option>
-        <option>Structural Damage</option>
-        <option>Fire / Safety Hazard</option>
-        <option>Locks / Security</option>
-        <option>Grounds / Landscape</option>
-        <option>Equipment Failure</option>
-        <option>Other</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">Location in Building</label>
-      <input class="inp" id="flLoc" placeholder="e.g. North restroom, Electrical room, Perimeter gate..." type="text">
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">Describe the Issue</label>
-      <textarea class="inp" id="flDesc" placeholder="Clearly describe what you found, how bad it is, any immediate danger..."></textarea>
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">Photo Evidence</label>
-      <div class="photo-area" id="flPhotoArea" onclick="document.getElementById('photoInputF').click()">
-        <div id="flPlaceholder">📷 Tap to take photo of issue</div>
-        <img id="flImg" alt="issue photo">
-      </div>
-      <input type="file" id="photoInputF" accept="image/*" capture="environment" onchange="handlePhoto(this,'flImg','flPhotoArea','flPlaceholder',false)">
-    </div>
-  </div>
-  <button class="btn-p btn-red" onclick="goTo(5)">🚩 SUBMIT FLAG →</button>
-</div>
-
-<!-- S5: Review -->
-<div class="screen" id="s5">
-  <button class="back-btn" onclick="goBackFromReview()">← Back</button>
-  <div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div>
-  <div class="step-lbl">Final Step</div>
-  <div class="step-ttl">Review & Submit</div>
-  <div style="text-align:center;margin-bottom:14px">
-    <img id="rvFace" class="rv-face" alt="" style="display:inline-block">
-    <div style="margin-top:6px;font-size:11px;color:var(--mut)">GPS-verified selfie</div>
-  </div>
-  <div style="background:var(--card);border-radius:var(--r);padding:13px 16px;margin-bottom:14px" id="rvCommon"></div>
-  <div style="background:var(--card);border-radius:var(--r);padding:13px 16px" id="rvDetails"></div>
-  <button class="btn-p" id="submitBtn" onclick="submitReport()">✓ SUBMIT REPORT</button>
-  <div id="subAlert" class="alert" style="display:none"></div>
-</div>
-
-<!-- S6: Submitting -->
+<!-- S6: Review -->
 <div class="screen" id="s6">
-  <div class="spinner-wrap"><div class="spinner"></div><div style="font-weight:700">Submitting...</div><div style="color:var(--mut);font-size:13px">Please wait</div></div>
+  <button class="back-btn" onclick="stopCam();goTo(5)">← Back</button>
+  <div class="step-lbl">Review & Submit</div>
+  <div class="step-ttl">Confirm your report</div>
+  <div style="text-align:center;margin-bottom:14px;">
+    <img id="rvFace" style="width:68px;height:68px;border-radius:10px;object-fit:cover;border:2px solid var(--org);" alt="">
+  </div>
+  <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;margin-bottom:12px;">
+    <div class="rv-row"><span class="rv-lbl">Worker</span><span class="rv-val" id="rv-w">—</span></div>
+    <div class="rv-row"><span class="rv-lbl">Building</span><span class="rv-val" id="rv-b">—</span></div>
+    <div class="rv-row"><span class="rv-lbl">Report Type</span><span class="rv-val" id="rv-type">—</span></div>
+    <div class="rv-row"><span class="rv-lbl">Time</span><span class="rv-val" id="rv-tm">—</span></div>
+    <div class="rv-row"><span class="rv-lbl">Location</span><span class="rv-val" id="rv-addr" style="font-size:11px;max-width:250px;">—</span></div>
+    <div class="rv-row"><span class="rv-lbl">GPS Accuracy</span><span class="rv-val" id="rv-acc">—</span></div>
+  </div>
+  <div style="background:var(--card);border-radius:var(--r);padding:12px 15px;margin-bottom:12px;" id="rv-task-summary"></div>
+  <button class="btn-p" onclick="submitReport()">✓ SUBMIT REPORT</button>
+  <div id="subAlert" class="alert" style="display:none;"></div>
 </div>
 
-<!-- S7: Result -->
+<!-- S7: Submitting -->
 <div class="screen" id="s7">
+  <div class="spinner-wrap"><div class="spinner"></div><div style="font-weight:700;">Submitting...</div><div style="color:var(--mut);font-size:12px;">Please wait</div></div>
+</div>
+
+<!-- S8: Result -->
+<div class="screen" id="s8">
   <div class="suc-wrap">
     <div class="suc-ic" id="resIc">✅</div>
-    <div class="suc-ttl" id="resTtl">Submitted!</div>
-    <div style="color:var(--mut);font-size:13px;margin-bottom:16px" id="resSub"></div>
-    <div style="background:var(--card);border-radius:var(--r);padding:13px 16px;width:100%;text-align:left" id="resDet"></div>
+    <div class="suc-ttl" id="resTtl">Report Submitted!</div>
+    <div class="suc-sub" id="resSub"></div>
+    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;width:100%;text-align:left;" id="resDet"></div>
   </div>
   <button class="btn-p" onclick="resetAll()">NEW REPORT</button>
 </div>
 
+<!-- Hidden file inputs (capture from camera) -->
+<input type="file" id="photoInput" accept="image/*" capture="environment">
+
 <!-- Admin Panel -->
-<div class="adm-panel" id="admPanel">
-  <div class="adm-hdr">
-    <div class="adm-ttl">⚙️ Admin Config</div>
-    <button class="adm-close" onclick="closeAdm()">✕ Close</button>
+<div id="admPanel" style="display:none;position:fixed;inset:0;background:var(--nvy);z-index:200;overflow-y:auto;padding:20px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <div style="font-size:16px;font-weight:800;">⚙️ Admin</div>
+    <button onclick="document.getElementById('admPanel').style.display='none'" style="background:#334155;border:none;color:var(--txt);padding:7px 13px;border-radius:8px;cursor:pointer;font-size:12px;">✕ Close</button>
   </div>
-  <div class="adm-sec">
-    <div class="adm-sec-ttl">Google Apps Script URL</div>
-    <input class="inp" id="gasInp" placeholder="https://script.google.com/macros/s/..." type="url">
-    <button class="btn-p" onclick="saveGas()" style="margin-top:6px">Save URL</button>
-    <div id="gasAlert" class="alert" style="display:none"></div>
-  </div>
-  <div class="adm-sec">
-    <div class="adm-sec-ttl">Workers</div>
-    <div class="tag-list" id="wTags"></div>
-    <div class="add-row">
-      <input class="inp add-inp" id="newW" placeholder="Worker name">
-      <button class="add-btn" onclick="addW()">+</button>
-    </div>
-  </div>
-  <div class="adm-sec">
-    <div class="adm-sec-ttl">Buildings</div>
-    <div class="tag-list" id="bTags"></div>
-    <div class="add-row">
-      <input class="inp add-inp" id="newB" placeholder="Building name">
-      <button class="add-btn" onclick="addB()">+</button>
-    </div>
-  </div>
-  <div class="adm-sec">
-    <div class="adm-sec-ttl">FM Alert Email (for Emergency flags)</div>
-    <input class="inp" id="fmEmail" placeholder="fm@example.com" type="email">
-  </div>
-  <button class="btn-p" onclick="saveAll()">💾 SAVE ALL CONFIG</button>
-  <div id="admAlert" class="alert" style="display:none"></div>
+  <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--org);margin-bottom:9px;">GAS URL Override</div>
+  <input class="inp" id="gasInp" placeholder="https://script.google.com/macros/s/..." type="url">
+  <button class="btn-p" onclick="saveGas()">Save URL</button>
+  <div id="gasAlert" class="alert" style="display:none;"></div>
 </div>
 
 <script>
-// ===== CHECKLIST DATA (LDS Scope) =====
-const CL_ITEMS = [
-  { cat:'🏠 General Building', items:[
-    'Building clean and accessible',
-    'All lights functioning properly',
-    'No water leaks observed',
-    'Restrooms operational (sinks, WC, faucets)',
-    'Doors and windows close/lock properly'
-  ]},
-  { cat:'🔥 Fire Safety', items:[
-    'Fire extinguisher pressure gauge in green zone',
-    'Fire extinguisher physically accessible',
-    'Extinguisher clean, no damage',
-    'Fire alarm switches — no activated/loose switches',
-    'Fire alarm bell operational'
-  ]},
-  { cat:'⚡ Electrical', items:[
-    'No tripped breakers on panel board',
-    'No burning smell from outlets or panel',
-    'No exposed or damaged wiring visible',
-    'Outlets clean — no burn marks',
-    'Panel board area clear of debris'
-  ]},
-  { cat:'🚿 Plumbing', items:[
-    'No visible leaks (pipes, faucets, fixtures)',
-    'All drains flowing (sinks, floor drains)',
-    'Water closets flushing properly',
-    'Water motor pump operational',
-    'No foul odors from drains'
-  ]},
-  { cat:'🔌 Generator (if applicable)', items:[
-    'Generator area clean, no debris',
-    'Fuel level adequate (not foul)',
-    'No visible oil leaks',
-    'Battery terminals clean',
-    'Exhaust clear of obstructions'
-  ]},
-  { cat:'🔒 Locks & Security', items:[
-    'All entry locks functioning',
-    'Deadbolts operational',
-    'Padlocks on gates/perimeter intact',
-    'No forced entry signs',
-    'Hinges on main doors secure'
-  ]},
-  { cat:'🌿 Grounds', items:[
-    'Lawn/grass trimmed and maintained',
-    'No dead plants or bald spots visible',
-    'Pathways clear of debris',
-    'No overgrown branches near building',
-    'No safety hazards on grounds'
-  ]}
+// ── Config ──────────────────────────────────────────────────
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwTlnZP0Tn-RUIGX5CnyPjGaO-MJjYEWjTamV047khjIjLZV4ekS3C52GneltTpLUS1/exec';
+
+// Default daily tasks (used if none configured in Sheet)
+const DEFAULT_TASKS = [
+  { id:'T01', name:'Sweep all floor areas', category:'Cleaning' },
+  { id:'T02', name:'Mop all floor areas', category:'Cleaning' },
+  { id:'T03', name:'Clean all restrooms (CR)', category:'Restrooms' },
+  { id:'T04', name:'Empty and replace trash bags', category:'Waste' },
+  { id:'T05', name:'Wipe down surfaces, chairs & tables', category:'Cleaning' },
+  { id:'T06', name:'Water the plants / grounds', category:'Grounds' },
+  { id:'T07', name:'Clean glass doors & windows', category:'Cleaning' },
+  { id:'T08', name:'Check building exterior & perimeter', category:'Inspection' },
+  { id:'T09', name:'Check restroom supplies (soap, tissue)', category:'Restrooms' },
+  { id:'T10', name:'Secure all doors & locks', category:'Security' }
 ];
 
-let clState = {}; // {item_key: 'pass'|'fail'|'na'}
-
-function buildChecklist(){
-  clState = {};
-  const el = document.getElementById('clItems');
-  el.innerHTML = '';
-  CL_ITEMS.forEach((group, gi) => {
-    const sec = document.createElement('div');
-    sec.className = 'cl-category';
-    sec.innerHTML = `<div class="cl-cat-ttl">${group.cat}</div>`;
-    group.items.forEach((item, ii) => {
-      const key = `${gi}_${ii}`;
-      clState[key] = null;
-      const row = document.createElement('div');
-      row.className = 'cl-item';
-      row.innerHTML = `
-        <span class="cl-txt">${item}</span>
-        <div class="cl-btns">
-          <button class="cl-btn" id="cl-pass-${key}" onclick="setCI('${key}','pass')" title="Pass">✅</button>
-          <button class="cl-btn" id="cl-fail-${key}" onclick="setCI('${key}','fail')" title="Fail">❌</button>
-          <button class="cl-btn" id="cl-na-${key}" onclick="setCI('${key}','na')" title="N/A">—</button>
-        </div>`;
-      sec.appendChild(row);
-    });
-    el.appendChild(sec);
-  });
-}
-
-function setCI(key, val){
-  clState[key] = val;
-  ['pass','fail','na'].forEach(v => {
-    const b = document.getElementById(`cl-${v}-${key}`);
-    if(b) b.className = 'cl-btn' + (v === val ? ' ' + v : '');
-  });
-}
-
-// ===== CONFIG =====
-let cfg = {
-  gasUrl:'', workers:['Juan dela Cruz','Maria Santos','Pedro Reyes'],
-  buildings:['Building 1','Building 2','Building 3'], fmEmail:''
-};
-
-// ===== STATE =====
-let st = {
-  mode: null, worker: null, building: null,
-  selfie: null, gps: null, ts: null,
-  classification: null, urgency: null,
-  bfPhoto: null, afPhoto: null, flPhoto: null
-};
+let cfg    = { gasUrl: GAS_URL, workers:[], buildings:[], tasks:{} };
+let st     = { worker:null, building:null, mode:null, tasks:[], selfie:null, gps:null, ts:null, spData:{} };
 let stream = null, gpsW = null, tapCt = 0, tapTmr = null;
+let activePhotoTarget = null, activePhotoCallback = null;
 
-// ===== BOOT =====
+// ── Boot ─────────────────────────────────────────────────────
 (function(){
-  try { const s=localStorage.getItem('apdc_rep'); if(s) cfg={...cfg,...JSON.parse(s)}; } catch(e){}
-  document.getElementById('logoTap').addEventListener('click', ()=>{
+  try { const s = localStorage.getItem('apdc_gas_url'); if(s) cfg.gasUrl=s; } catch(e){}
+  document.getElementById('logoTap').addEventListener('click',()=>{
     tapCt++; clearTimeout(tapTmr); tapTmr=setTimeout(()=>tapCt=0,2000);
-    if(tapCt>=5){ tapCt=0; openAdm(); }
+    if(tapCt>=5){tapCt=0;openAdm();}
   });
+  document.getElementById('photoInput').addEventListener('change', handlePhotoInput);
+  loadConfig();
 })();
 
-// ===== NAVIGATION =====
-function goTo(n){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  if(n===4){
-    if(st.mode==='checklist') document.getElementById('s4cl').classList.add('active');
-    else if(st.mode==='workorder') document.getElementById('s4wo').classList.add('active');
-    else if(st.mode==='flag') document.getElementById('s4fl').classList.add('active');
-  } else {
-    document.getElementById('s'+n).classList.add('active');
+// ── Config Loader ────────────────────────────────────────────
+async function loadConfig() {
+  showScreen('sLoad');
+  try {
+    const r    = await fetch(cfg.gasUrl + '?action=getConfig');
+    const data = await r.json();
+    if(data.status==='ok') {
+      cfg.workers   = data.workers   || [];
+      cfg.buildings = data.buildings || [];
+      cfg.tasks     = data.tasks     || {};  // building-specific tasks if configured
+      document.getElementById('cfgIc').textContent    = '✅';
+      document.getElementById('cfgTitle').textContent = 'Config Loaded';
+      document.getElementById('cfgSub').textContent   = `${cfg.workers.length} workers · ${cfg.buildings.length} buildings`;
+    } else throw new Error(data.message||'Config error');
+  } catch(e) {
+    cfg.workers=[]; cfg.buildings=[];
+    document.getElementById('cfgIc').textContent    = '⚠️';
+    document.getElementById('cfgTitle').textContent = 'Config Load Failed';
+    document.getElementById('cfgSub').textContent   = 'Check internet. Tap Refresh Config.';
   }
-  if(n===1) startCam();
-  if(n===2) renderWorkers();
-  if(n===3) renderBuildings();
-  if(n===4 && st.mode==='checklist') buildChecklist();
-  if(n===5) renderReview();
+  showScreen('s0');
 }
+async function refreshConfig(){ await loadConfig(); }
 
-function selMode(mode){
-  st.mode = mode;
-  goTo(1);
+// ── Screen Nav ───────────────────────────────────────────────
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
-
-function goBackFromReview(){
-  goTo(4);
+function goTo(n){
+  if(n===1) renderWorkers();
+  if(n===2) renderBuildings();
+  if(n===4) setupS4();
+  if(n===5){ startCam(); startGps(); }
+  if(n===6){ stopCam(); renderReview(); }
+  showScreen('s'+n);
 }
-
 function resetAll(){
-  st={mode:null,worker:null,building:null,selfie:null,gps:null,ts:null,classification:null,urgency:null,bfPhoto:null,afPhoto:null,flPhoto:null};
+  st={worker:null,building:null,mode:null,tasks:[],selfie:null,gps:null,ts:null,spData:{}};
   stopCam(); stopGps();
-  // Reset photos
-  ['bfImg','afImg','flImg'].forEach(id=>{ const el=document.getElementById(id); if(el){el.src='';el.style.display='none';} });
-  ['bfArea','afArea','flPhotoArea'].forEach(id=>{ const el=document.getElementById(id); if(el) el.classList.remove('has-photo'); });
-  ['bfPlaceholder','afPlaceholder','flPlaceholder'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display=''; });
+  document.getElementById('s4Next').disabled=false;
   document.getElementById('selfieNext').disabled=true;
-  document.getElementById('captBtn').style.display='';
-  document.getElementById('retakeBtn').style.display='none';
-  document.getElementById('prevImg').style.display='none';
-  document.getElementById('videoEl').style.display='block';
-  document.getElementById('camOv').style.display='';
-  // Reset form fields
-  ['woNum','woLoc','woDesc','woMats','flLoc','flDesc','clNotes'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
-  ['woType','woStatus','flCat'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
-  document.querySelectorAll('.class-btn').forEach(b=>b.classList.remove('sel'));
-  goTo(0);
+  showScreen('s0');
 }
 
-// ===== WORKERS / BUILDINGS =====
+// ── Worker / Building Render ─────────────────────────────────
 function renderWorkers(){
-  const el=document.getElementById('workerList');
-  el.innerHTML='';
+  const el=document.getElementById('workerList'); el.innerHTML='';
   cfg.workers.forEach(w=>{
-    const b=document.createElement('button');
-    b.className='card-btn'+(st.worker===w?' sel':'');
-    b.innerHTML=`<span class="card-ic">👤</span><span>${w}</span>`;
-    b.onclick=()=>{st.worker=w;el.querySelectorAll('.card-btn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');setTimeout(()=>goTo(3),180);};
+    const b=document.createElement('button'); b.className='card-btn'+(st.worker===w?' sel':'');
+    b.innerHTML=`<span class="card-ic">👤</span><span>${esc(w)}</span>`;
+    b.onclick=()=>{st.worker=w;el.querySelectorAll('.card-btn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');setTimeout(()=>goTo(2),160);};
     el.appendChild(b);
   });
+  if(!cfg.workers.length) el.innerHTML='<div style="text-align:center;color:var(--mut);padding:24px;">No workers found. Check Config tab in Google Sheet.</div>';
+}
+function renderBuildings(){
+  const el=document.getElementById('buildingList'); el.innerHTML='';
+  const ics=['🏛','⛪','🏢','🏠','🏫','🏪','🏦','🏗','🏘','🏙'];
+  cfg.buildings.forEach((b,i)=>{
+    const btn=document.createElement('button'); btn.className='card-btn'+(st.building===b?' sel':'');
+    btn.innerHTML=`<span class="card-ic">${ics[i%ics.length]}</span><span>${esc(b)}</span>`;
+    btn.onclick=()=>{st.building=b;el.querySelectorAll('.card-btn').forEach(x=>x.classList.remove('sel'));btn.classList.add('sel');setTimeout(()=>goTo(3),160);};
+    el.appendChild(btn);
+  });
+  if(!cfg.buildings.length) el.innerHTML='<div style="text-align:center;color:var(--mut);padding:24px;">No buildings found.</div>';
+}
+function selMode(mode,el){
+  st.mode=mode;
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('modeNext').disabled=false;
 }
 
-function renderBuildings(){
-  const el=document.getElementById('buildingList');
-  el.innerHTML='';
-  const ics=['🏛','⛪','🏢','🏠','🏫','🏪','🏬','🏦','🏗','🏨'];
-  cfg.buildings.forEach((b,i)=>{
-    const btn=document.createElement('button');
-    btn.className='card-btn'+(st.building===b?' sel':'');
-    btn.innerHTML=`<span class="card-ic">${ics[i%ics.length]}</span><span>${b}</span>`;
-    btn.onclick=()=>{st.building=b;el.querySelectorAll('.card-btn').forEach(x=>x.classList.remove('sel'));btn.classList.add('sel');setTimeout(()=>goTo(4),180);};
-    el.appendChild(btn);
+// ── S4: Task Setup ───────────────────────────────────────────
+function setupS4(){
+  const isDaily = st.mode==='daily';
+  document.getElementById('s4title').textContent  = isDaily ? '📋 Daily Tasks' : '⚡ Special Task';
+  document.getElementById('dailySection').style.display  = isDaily ? '' : 'none';
+  document.getElementById('specialSection').style.display= isDaily ? 'none' : '';
+  if(isDaily) buildTaskList();
+}
+
+function buildTaskList(){
+  // Get tasks for this building (from config or defaults)
+  const bldTasks = cfg.tasks[st.building] || DEFAULT_TASKS;
+  const noMsg    = document.getElementById('noTasksMsg');
+  const listEl   = document.getElementById('taskList');
+  listEl.innerHTML='';
+
+  if(!bldTasks.length){ noMsg.style.display=''; return; }
+  noMsg.style.display='none';
+
+  // Initialize task state array
+  st.tasks = bldTasks.map(t=>({ id:t.id||t.name, name:t.name, category:t.category||'', before:null, after:null, notes:'' }));
+
+  bldTasks.forEach((t,i)=>{
+    const card=document.createElement('div'); card.className='task-card'; card.id='tc-'+i;
+    card.innerHTML=`
+      <div class="task-hd" onclick="toggleTask(${i})">
+        <div class="task-num" id="tnum-${i}">${i+1}</div>
+        <div class="task-name">${esc(t.name)}</div>
+        <span class="task-status ts-pending" id="tstat-${i}">Pending</span>
+        <span style="color:var(--mut);font-size:14px;margin-left:4px;" id="tarrow-${i}">▼</span>
+      </div>
+      <div class="task-body" id="tbody-${i}">
+        ${t.category?`<div style="font-size:10px;font-weight:700;color:var(--org);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">${esc(t.category)}</div>`:''}
+        <div class="photo-row">
+          <div class="photo-slot" id="bslot-${i}" onclick="triggerTaskPhoto(${i},'before')">
+            <span class="slot-lbl before">BEFORE</span>
+            <span class="slot-add">📷</span>
+            <span class="slot-add-txt">Photo before</span>
+          </div>
+          <div class="photo-slot" id="aslot-${i}" onclick="triggerTaskPhoto(${i},'after')">
+            <span class="slot-lbl after">AFTER</span>
+            <span class="slot-add">📷</span>
+            <span class="slot-add-txt">Photo after</span>
+          </div>
+        </div>
+        <div class="inp-lbl" style="margin-top:2px;">Notes (optional)</div>
+        <textarea class="inp" id="tnotes-${i}" rows="2" placeholder="Any observations or issues..." oninput="st.tasks[${i}].notes=this.value"></textarea>
+      </div>`;
+    listEl.appendChild(card);
   });
 }
 
-// ===== SELFIE VERIFY =====
+function toggleTask(i){
+  const body=document.getElementById('tbody-'+i);
+  const arrow=document.getElementById('tarrow-'+i);
+  const open=body.classList.toggle('open');
+  arrow.textContent=open?'▲':'▼';
+}
+
+function triggerTaskPhoto(taskIdx, type){
+  activePhotoTarget={type:'task', taskIdx, photoType:type};
+  document.getElementById('photoInput').click();
+}
+function triggerPhoto(id){
+  activePhotoTarget={type:'special', id};
+  document.getElementById('photoInput').click();
+}
+
+function handlePhotoInput(e){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const data=ev.target.result;
+    if(activePhotoTarget.type==='task'){
+      const {taskIdx,photoType}=activePhotoTarget;
+      st.tasks[taskIdx][photoType]=data;
+      renderTaskSlot(taskIdx,photoType,data);
+      updateTaskStatus(taskIdx);
+    } else {
+      const {id}=activePhotoTarget;
+      const slot=document.getElementById(id+'Slot');
+      if(id==='spBefore') st.spData.before=data;
+      else                 st.spData.after=data;
+      if(slot){ slot.innerHTML=`<span class="slot-lbl ${id.includes('Before')?'before':'after'}">${id.includes('Before')?'BEFORE':'AFTER'}</span><img src="${data}" style="width:100%;height:110px;object-fit:cover;"><button class="slot-del" onclick="event.stopPropagation();clearSpecialPhoto('${id}')">✕</button>`; slot.classList.add('has-photo'); }
+    }
+  };
+  reader.readAsDataURL(file);
+  e.target.value=''; // reset so same file can be re-selected
+}
+
+function renderTaskSlot(i,type,data){
+  const slotId=type==='before'?'bslot-'+i:'aslot-'+i;
+  const slot=document.getElementById(slotId);
+  if(!slot) return;
+  const lbl=type==='before'?'before':'after';
+  const lblTxt=type==='before'?'BEFORE':'AFTER';
+  slot.innerHTML=`<span class="slot-lbl ${lbl}">${lblTxt}</span><img src="${data}" style="width:100%;height:110px;object-fit:cover;"><button class="slot-del" onclick="event.stopPropagation();clearTaskPhoto(${i},'${type}')">✕</button>`;
+  slot.classList.add('has-photo');
+}
+
+function clearTaskPhoto(i,type){
+  st.tasks[i][type]=null;
+  const slotId=type==='before'?'bslot-'+i:'aslot-'+i;
+  const slot=document.getElementById(slotId);
+  const lblTxt=type==='before'?'BEFORE':'AFTER';
+  const lbl=type==='before'?'before':'after';
+  const hint=type==='before'?'Photo before':'Photo after';
+  if(slot){ slot.innerHTML=`<span class="slot-lbl ${lbl}">${lblTxt}</span><span class="slot-add">📷</span><span class="slot-add-txt">${hint}</span>`; slot.classList.remove('has-photo'); }
+  updateTaskStatus(i);
+}
+function clearSpecialPhoto(id){
+  if(id==='spBefore') st.spData.before=null;
+  else                 st.spData.after=null;
+  const slot=document.getElementById(id+'Slot');
+  const isB=id.includes('Before');
+  if(slot){ slot.innerHTML=`<span class="slot-lbl ${isB?'before':'after'}">${isB?'BEFORE':'AFTER'}</span><span class="slot-add">📷</span><span class="slot-add-txt">${isB?'Tap to take / upload':'Take after completing the work'}</span>`; slot.classList.remove('has-photo'); }
+}
+
+function updateTaskStatus(i){
+  const t=st.tasks[i];
+  const card=document.getElementById('tc-'+i);
+  const stat=document.getElementById('tstat-'+i);
+  const num=document.getElementById('tnum-'+i);
+  if(t.before && t.after){
+    card.classList.add('done'); card.classList.remove('partial');
+    stat.className='task-status ts-done'; stat.textContent='Done ✅';
+    num.style.background='rgba(34,197,94,.2)'; num.style.color='var(--grn)';
+  } else if(t.before || t.after){
+    card.classList.remove('done'); card.classList.add('partial');
+    stat.className='task-status ts-partial'; stat.textContent='In Progress';
+    num.style.background='rgba(234,179,8,.2)'; num.style.color='var(--yel)';
+  } else {
+    card.classList.remove('done','partial');
+    stat.className='task-status ts-pending'; stat.textContent='Pending';
+    num.style.background=''; num.style.color='';
+  }
+}
+
+// ── Camera ───────────────────────────────────────────────────
 async function startCam(){
   try{
     stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:640},height:{ideal:480}},audio:false});
-    document.getElementById('videoEl').srcObject=stream;
-    document.getElementById('videoEl').style.display='block';
+    const v=document.getElementById('videoEl');
+    v.srcObject=stream; v.style.display='block';
     document.getElementById('prevImg').style.display='none';
     document.getElementById('camOv').style.display='';
     document.getElementById('captBtn').style.display='';
     document.getElementById('retakeBtn').style.display='none';
     document.getElementById('selfieNext').disabled=true;
-  } catch(e){ alert('Camera access denied. Please allow camera and reload.'); }
-  startGps();
+  }catch(e){ alert('Camera access denied. Please allow camera and reload.'); }
 }
-
 function stopCam(){ if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;} }
-
 function captureSelfie(){
   const v=document.getElementById('videoEl'),c=document.getElementById('canvasEl'),ctx=c.getContext('2d');
   c.width=v.videoWidth||640; c.height=v.videoHeight||480;
@@ -602,28 +574,30 @@ function captureSelfie(){
   ctx.setTransform(1,0,0,1,0,0);
   const now=new Date();
   const ts=now.toLocaleString('en-US',{year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true});
-  const gStr=st.gps?`GPS: ${st.gps.lat.toFixed(6)}, ${st.gps.lng.toFixed(6)} ±${Math.round(st.gps.acc)}m`:'GPS: Not acquired';
-  const fs=Math.max(12,Math.round(c.width/38));
-  const sh=fs*5.2;
-  const modeLabel={checklist:'CHECKLIST',workorder:'WORK ORDER',flag:'FLAG REPORT'}[st.mode]||'REPORT';
-  ctx.fillStyle='rgba(0,0,0,0.72)'; ctx.fillRect(0,c.height-sh,c.width,sh);
-  ctx.font=`bold ${fs*1.4}px Arial`; ctx.fillStyle='#f97316'; ctx.fillText('APDC — '+modeLabel,10,c.height-sh+fs*1.5);
+  const gStr=st.gps?`GPS ±${Math.round(st.gps.acc)}m`:' GPS pending';
+  const addr=st.gps&&st.gps.address?st.gps.address.substring(0,42):'';
+  const fs=Math.max(11,Math.round(c.width/40));
+  const sh=fs*6.5;
+  ctx.fillStyle='rgba(0,0,0,.75)'; ctx.fillRect(0,c.height-sh,c.width,sh);
+  ctx.font=`bold ${fs*1.3}px Arial`; ctx.fillStyle='#f97316';
+  ctx.fillText('APDC',10,c.height-sh+fs*1.5);
   ctx.font=`bold ${fs}px Arial`; ctx.fillStyle='#fff';
-  ctx.fillText(ts,10,c.height-sh+fs*2.8);
-  ctx.font=`${fs*0.85}px Arial`; ctx.fillStyle='#94a3b8';
-  ctx.fillText(gStr,10,c.height-sh+fs*4.2);
-  ctx.fillText('Identity Verified — APDC System',10,c.height-sh+fs*5);
-  st.selfie=c.toDataURL('image/jpeg',0.88);
+  ctx.fillText(st.worker||'Unknown',10,c.height-sh+fs*2.9);
+  ctx.fillText(st.mode==='daily'?'Daily Tasks':'Special Task',10,c.height-sh+fs*4.1);
+  ctx.font=`${fs*.85}px Arial`; ctx.fillStyle='#94a3b8';
+  ctx.fillText(ts,10,c.height-sh+fs*5.2);
+  ctx.fillText(st.building||'',c.width/2+8,c.height-sh+fs*2);
+  ctx.fillText(gStr,c.width/2+8,c.height-sh+fs*3.3);
+  if(addr) ctx.fillText(addr,10,c.height-sh+fs*6.2);
+  st.selfie=c.toDataURL('image/jpeg',.88);
   st.ts=now.toISOString();
-  document.getElementById('prevImg').src=st.selfie;
-  document.getElementById('prevImg').style.display='block';
+  const p=document.getElementById('prevImg'); p.src=st.selfie; p.style.display='block';
   document.getElementById('videoEl').style.display='none';
   document.getElementById('camOv').style.display='none';
   document.getElementById('captBtn').style.display='none';
   document.getElementById('retakeBtn').style.display='';
   checkReady();
 }
-
 function retake(){
   document.getElementById('videoEl').style.display='block';
   document.getElementById('prevImg').style.display='none';
@@ -633,179 +607,153 @@ function retake(){
   document.getElementById('selfieNext').disabled=true;
   st.selfie=null;
 }
-
 function checkReady(){ if(st.selfie&&st.gps) document.getElementById('selfieNext').disabled=false; }
 
+// ── GPS with Reverse Geocoding ────────────────────────────────
 function startGps(){
-  const dot=document.getElementById('gpsDot'),txt=document.getElementById('gpsText');
-  dot.className='gps-dot acq'; txt.textContent='Acquiring GPS location...';
-  if(!navigator.geolocation){ dot.className='gps-dot err'; txt.textContent='GPS not supported'; return; }
+  const dot=document.getElementById('gpsDot'),status=document.getElementById('gpsStatus'),addr=document.getElementById('gpsAddr');
+  dot.className='gps-dot acq'; status.textContent='Acquiring GPS...'; addr.textContent='';
+  if(!navigator.geolocation){ dot.className='gps-dot err'; status.textContent='GPS not supported'; return; }
   let reads=[];
   gpsW=navigator.geolocation.watchPosition(p=>{
     reads.push({lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy});
     if(reads.length>4) reads.shift();
     const best=reads.reduce((a,b)=>a.acc<b.acc?a:b);
-    st.gps=best;
+    st.gps={...best,address:st.gps?.address||''};
     dot.className='gps-dot got';
-    txt.textContent=`✓ GPS locked — ±${Math.round(best.acc)}m`;
+    status.textContent=`✓ GPS locked — ±${Math.round(best.acc)}m`;
+    addr.textContent=st.gps.address?`📍 ${st.gps.address}`:'Fetching address...';
     checkReady();
-  },e=>{ dot.className='gps-dot err'; txt.textContent='GPS error: '+e.message; },
-  {enableHighAccuracy:true,maximumAge:4000,timeout:20000});
+    // Reverse geocode once we have a good fix
+    if(!st.gps.address && best.acc < 100) reverseGeocode(best.lat,best.lng);
+  },e=>{dot.className='gps-dot err';status.textContent='GPS error: '+e.message;},{enableHighAccuracy:true,maximumAge:4000,timeout:20000});
+}
+
+async function reverseGeocode(lat,lng){
+  try{
+    const r=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`,{headers:{'Accept-Language':'en'}});
+    const d=await r.json();
+    if(d && d.display_name){
+      // Build a clean short address: road, suburb/barangay, city
+      const a=d.address||{};
+      const parts=[
+        a.road||a.pedestrian||a.footway||'',
+        a.suburb||a.neighbourhood||a.village||a.barangay||'',
+        a.city||a.town||a.municipality||''
+      ].filter(Boolean);
+      const shortAddr = parts.length ? parts.join(', ') : d.display_name.split(',').slice(0,3).join(',');
+      if(st.gps) st.gps.address=shortAddr;
+      const addrEl=document.getElementById('gpsAddr');
+      if(addrEl) addrEl.textContent=`📍 ${shortAddr}`;
+    }
+  }catch(e){ /* silently fail */ }
 }
 
 function stopGps(){ if(gpsW!=null){navigator.geolocation.clearWatch(gpsW);gpsW=null;} }
 
-// ===== FORM HELPERS =====
-function selClass(val,el){ st.classification=val; document.querySelectorAll('#s4wo .class-btn').forEach(b=>b.classList.remove('sel')); el.classList.add('sel'); }
-function selUrgency(val,el){ st.urgency=val; document.querySelectorAll('#s4fl .class-btn').forEach(b=>b.classList.remove('sel')); el.classList.add('sel'); }
-
-function handlePhoto(input,imgId,areaId,phId,store){
-  const file=input.files[0]; if(!file) return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    const data=e.target.result;
-    document.getElementById(imgId).src=data;
-    document.getElementById(imgId).style.display='block';
-    document.getElementById(phId).style.display='none';
-    document.getElementById(areaId).classList.add('has-photo');
-    if(imgId==='bfImg') st.bfPhoto=data;
-    if(imgId==='afImg') st.afPhoto=data;
-    if(imgId==='flImg') st.flPhoto=data;
-  };
-  reader.readAsDataURL(file);
-}
-
-// ===== REVIEW =====
+// ── Review ────────────────────────────────────────────────────
 function renderReview(){
-  stopCam();
+  document.getElementById('rv-w').textContent=st.worker||'—';
+  document.getElementById('rv-b').textContent=st.building||'—';
+  document.getElementById('rv-type').textContent=st.mode==='daily'?'📋 Daily Tasks':'⚡ Special Task';
+  document.getElementById('rv-tm').textContent=st.ts?new Date(st.ts).toLocaleTimeString('en-US',{hour12:true}):'—';
+  document.getElementById('rv-addr').textContent=st.gps?.address||`${st.gps?.lat?.toFixed(5)||'?'}, ${st.gps?.lng?.toFixed(5)||'?'}`;
+  document.getElementById('rv-acc').textContent=st.gps?`±${Math.round(st.gps.acc)} meters`:'—';
   if(st.selfie) document.getElementById('rvFace').src=st.selfie;
 
-  document.getElementById('rvCommon').innerHTML=`
-    <div class="rv-row"><span class="rv-lbl">Report Type</span><span class="rv-val" style="text-transform:uppercase">${st.mode||'—'}</span></div>
-    <div class="rv-row"><span class="rv-lbl">Worker</span><span class="rv-val">${st.worker||'—'}</span></div>
-    <div class="rv-row"><span class="rv-lbl">Building</span><span class="rv-val">${st.building||'—'}</span></div>
-    <div class="rv-row"><span class="rv-lbl">Time</span><span class="rv-val">${st.ts?new Date(st.ts).toLocaleString('en-US',{hour12:true}):'—'}</span></div>
-    <div class="rv-row" style="border:0"><span class="rv-lbl">GPS</span><span class="rv-val">${st.gps?`${st.gps.lat.toFixed(5)}, ${st.gps.lng.toFixed(5)}`:'—'}</span></div>`;
-
-  let det='';
-  if(st.mode==='checklist'){
-    const total=Object.keys(clState).length;
-    const pass=Object.values(clState).filter(v=>v==='pass').length;
-    const fail=Object.values(clState).filter(v=>v==='fail').length;
-    const na=Object.values(clState).filter(v=>v==='na').length;
-    const unc=Object.values(clState).filter(v=>v===null).length;
-    det=`<div class="rv-row"><span class="rv-lbl">Total Items</span><span class="rv-val">${total}</span></div>
-      <div class="rv-row"><span class="rv-lbl">✅ Pass</span><span class="rv-val" style="color:var(--grn)">${pass}</span></div>
-      <div class="rv-row"><span class="rv-lbl">❌ Fail</span><span class="rv-val" style="color:var(--red)">${fail}</span></div>
-      <div class="rv-row"><span class="rv-lbl">— N/A</span><span class="rv-val">${na}</span></div>
-      <div class="rv-row" style="border:0"><span class="rv-lbl">Unchecked</span><span class="rv-val" style="color:${unc>0?'var(--yel)':'var(--mut)'}">${unc}</span></div>`;
-  } else if(st.mode==='workorder'){
-    const wn=document.getElementById('woNum')?.value||'';
-    const wt=document.getElementById('woType')?.value||'—';
-    const wl=document.getElementById('woLoc')?.value||'—';
-    const ws=document.getElementById('woStatus')?.value||'—';
-    det=`<div class="rv-row"><span class="rv-lbl">WO #</span><span class="rv-val">${wn||'None'}</span></div>
-      <div class="rv-row"><span class="rv-lbl">Classification</span><span class="rv-val">${st.classification||'—'}</span></div>
-      <div class="rv-row"><span class="rv-lbl">Work Type</span><span class="rv-val">${wt}</span></div>
-      <div class="rv-row"><span class="rv-lbl">Location</span><span class="rv-val">${wl}</span></div>
-      <div class="rv-row"><span class="rv-lbl">Before Photo</span><span class="rv-val">${st.bfPhoto?'✅ Attached':'❌ None'}</span></div>
-      <div class="rv-row"><span class="rv-lbl">After Photo</span><span class="rv-val">${st.afPhoto?'✅ Attached':'❌ None'}</span></div>
-      <div class="rv-row" style="border:0"><span class="rv-lbl">Status</span><span class="rv-val">${ws}</span></div>`;
-  } else if(st.mode==='flag'){
-    const fc=document.getElementById('flCat')?.value||'—';
-    const fl=document.getElementById('flLoc')?.value||'—';
-    det=`<div class="rv-row"><span class="rv-lbl">Urgency</span><span class="rv-val" style="color:${st.urgency==='Emergency'?'var(--red)':st.urgency==='Urgent'?'var(--yel)':'var(--grn)'}">${st.urgency||'—'}</span></div>
-      <div class="rv-row"><span class="rv-lbl">Category</span><span class="rv-val">${fc}</span></div>
-      <div class="rv-row"><span class="rv-lbl">Location</span><span class="rv-val">${fl}</span></div>
-      <div class="rv-row" style="border:0"><span class="rv-lbl">Photo</span><span class="rv-val">${st.flPhoto?'✅ Attached':'⚠️ No photo'}</span></div>`;
-  }
-  document.getElementById('rvDetails').innerHTML=det;
-
-  // Warn if emergency
-  if((st.urgency==='Emergency'||st.classification==='Emergency')){
-    const w=document.createElement('div');
-    w.className='alert err'; w.textContent='🚨 EMERGENCY — FM will be alerted immediately upon submission.';
-    w.style.marginTop='10px';
-    document.getElementById('rvDetails').appendChild(w);
+  const sum=document.getElementById('rv-task-summary');
+  if(st.mode==='daily'){
+    const done=st.tasks.filter(t=>t.before||t.after).length;
+    const full=st.tasks.filter(t=>t.before&&t.after).length;
+    sum.innerHTML=`<div style="font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px;">Task Summary — ${full}/${st.tasks.length} completed</div>`+
+      st.tasks.map(t=>`
+        <div class="task-summary-row">
+          <span style="font-size:17px;">${t.before&&t.after?'✅':t.before||t.after?'🔶':'⬜'}</span>
+          <span style="flex:1;font-size:12px;">${esc(t.name)}</span>
+          <div class="ts-photos">
+            ${t.before?`<img class="ts-thumb" src="${t.before}">`:''}
+            ${t.after?`<img class="ts-thumb" src="${t.after}">`:''}
+          </div>
+        </div>`).join('');
+  } else {
+    const d=st.spData; const desc=document.getElementById('spDesc')?.value||'';
+    sum.innerHTML=`<div style="font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px;">Special Task</div>
+      <div style="font-size:13px;margin-bottom:8px;">${esc(desc)}</div>
+      <div style="display:flex;gap:8px;">
+        ${d.before?`<img src="${d.before}" style="width:70px;height:70px;object-fit:cover;border-radius:7px;border:2px solid #fcd34d;">`:'<div style="width:70px;height:70px;background:#334155;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--mut);">No before</div>'}
+        ${d.after?`<img src="${d.after}" style="width:70px;height:70px;object-fit:cover;border-radius:7px;border:2px solid #60a5fa;">`:'<div style="width:70px;height:70px;background:#334155;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--mut);">No after</div>'}
+      </div>`;
   }
 }
 
-// ===== SUBMIT =====
+// ── Submit ────────────────────────────────────────────────────
 async function submitReport(){
-  if(!cfg.gasUrl){ showAlert('subAlert','⚠️ No GAS URL configured. Contact admin.','err'); return; }
-  goTo(6);
-
-  const base={
-    type:'report', mode:st.mode, worker:st.worker, building:st.building,
-    timestamp:st.ts, lat:st.gps?.lat, lng:st.gps?.lng, accuracy:st.gps?.acc,
-    selfie:st.selfie, device:navigator.userAgent, submittedAt:new Date().toISOString()
-  };
-
-  let extra={};
-  if(st.mode==='checklist'){
-    extra.checklistResults=clState;
-    extra.notes=document.getElementById('clNotes')?.value||'';
-  } else if(st.mode==='workorder'){
-    extra.woNumber=document.getElementById('woNum')?.value||'';
-    extra.classification=st.classification;
-    extra.workType=document.getElementById('woType')?.value||'';
-    extra.location=document.getElementById('woLoc')?.value||'';
-    extra.description=document.getElementById('woDesc')?.value||'';
-    extra.materials=document.getElementById('woMats')?.value||'';
-    extra.status=document.getElementById('woStatus')?.value||'';
-    extra.beforePhoto=st.bfPhoto;
-    extra.afterPhoto=st.afPhoto;
-  } else if(st.mode==='flag'){
-    extra.urgency=st.urgency;
-    extra.category=document.getElementById('flCat')?.value||'';
-    extra.location=document.getElementById('flLoc')?.value||'';
-    extra.description=document.getElementById('flDesc')?.value||'';
-    extra.photo=st.flPhoto;
-    extra.fmEmail=cfg.fmEmail;
+  showScreen('s7');
+  const now=new Date();
+  let payload;
+  if(st.mode==='daily'){
+    payload={
+      mode:'daily_report',
+      worker:st.worker, building:st.building,
+      timestamp:st.ts||now.toISOString(),
+      submittedAt:now.toISOString(),
+      lat:st.gps?.lat, lng:st.gps?.lng,
+      accuracy:st.gps?.acc, address:st.gps?.address||'',
+      selfie:st.selfie,
+      tasks:st.tasks.map(t=>({id:t.id,name:t.name,category:t.category,before:t.before,after:t.after,notes:t.notes}))
+    };
+  } else {
+    const desc=document.getElementById('spDesc')?.value||'';
+    if(!desc){ showScreen('s6'); showAlert('subAlert','Task description is required.','err'); return; }
+    payload={
+      mode:'special_task',
+      worker:st.worker, building:st.building,
+      timestamp:st.ts||now.toISOString(),
+      submittedAt:now.toISOString(),
+      lat:st.gps?.lat, lng:st.gps?.lng,
+      accuracy:st.gps?.acc, address:st.gps?.address||'',
+      selfie:st.selfie,
+      description:desc,
+      requestedBy:document.getElementById('spReqBy')?.value||'',
+      location:document.getElementById('spLocation')?.value||'',
+      notes:document.getElementById('spNotes')?.value||'',
+      beforePhoto:st.spData.before||null,
+      afterPhoto:st.spData.after||null
+    };
   }
-
-  const payload={...base,...extra};
   try{
     await fetch(cfg.gasUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)});
-    const modeLabel={checklist:'Checklist Submitted',workorder:'Work Order Submitted',flag:'Flag Reported to FM'}[st.mode]||'Submitted';
-    showResult('✅',modeLabel,`${st.worker} — ${st.building}`);
-  } catch(e){
-    showResult('❌','Submission Failed','Error: '+e.message);
+    const tasksDone=st.mode==='daily'?st.tasks.filter(t=>t.before&&t.after).length:null;
+    showResult('✅','Report Submitted!',
+      st.mode==='daily'?`${tasksDone}/${st.tasks.length} tasks completed`:`Special task logged for ${st.building}`,
+      `<div class="rv-row"><span class="rv-lbl">Worker</span><span class="rv-val">${esc(st.worker)}</span></div>
+       <div class="rv-row"><span class="rv-lbl">Building</span><span class="rv-val">${esc(st.building)}</span></div>
+       <div class="rv-row"><span class="rv-lbl">Type</span><span class="rv-val">${st.mode==='daily'?'📋 Daily Tasks':'⚡ Special Task'}</span></div>
+       <div class="rv-row" style="border:0"><span class="rv-lbl">Location</span><span class="rv-val" style="font-size:11px;">${esc(st.gps?.address||'GPS captured')}</span></div>`
+    );
+  }catch(e){
+    showResult('❌','Submission Failed','Error: '+e.message,'');
   }
 }
 
-function showResult(ic,ttl,sub){
+function showResult(ic,ttl,sub,det){
   document.getElementById('resIc').textContent=ic;
   document.getElementById('resTtl').textContent=ttl;
   document.getElementById('resSub').textContent=sub;
-  document.getElementById('resDet').innerHTML=`
-    <div class="rv-row"><span class="rv-lbl">Mode</span><span class="rv-val" style="text-transform:uppercase">${st.mode}</span></div>
-    <div class="rv-row"><span class="rv-lbl">Worker</span><span class="rv-val">${st.worker}</span></div>
-    <div class="rv-row" style="border:0"><span class="rv-lbl">Time</span><span class="rv-val">${new Date(st.ts).toLocaleString('en-US',{hour12:true})}</span></div>`;
-  goTo(7);
+  document.getElementById('resDet').innerHTML=det;
+  showScreen('s8');
+}
+function showAlert(id,msg,type){const el=document.getElementById(id);el.textContent=msg;el.className=`alert ${type}`;el.style.display='';setTimeout(()=>el.style.display='none',5000);}
+
+function openAdm(){ document.getElementById('admPanel').style.display=''; document.getElementById('gasInp').value=cfg.gasUrl||''; }
+function saveGas(){
+  const v=document.getElementById('gasInp').value.trim();
+  if(!v.startsWith('https://')){showAlert('gasAlert','Enter a valid URL','err');return;}
+  cfg.gasUrl=v; try{localStorage.setItem('apdc_gas_url',v);}catch(e){}
+  showAlert('gasAlert','Saved! Close and tap Refresh Config.','ok');
 }
 
-// ===== ADMIN =====
-function openAdm(){
-  document.getElementById('admPanel').classList.add('open');
-  document.getElementById('gasInp').value=cfg.gasUrl||'';
-  document.getElementById('fmEmail').value=cfg.fmEmail||'';
-  renderWTags(); renderBTags();
-}
-function closeAdm(){ document.getElementById('admPanel').classList.remove('open'); }
-function saveGas(){ const v=document.getElementById('gasInp').value.trim(); if(!v.startsWith('https://')){ showAlert('gasAlert','Enter valid https:// URL','err'); return; } cfg.gasUrl=v; showAlert('gasAlert','URL saved!','ok'); }
-function renderWTags(){ document.getElementById('wTags').innerHTML=cfg.workers.map((w,i)=>`<div class="tag">${w}<span class="tag-x" onclick="remW(${i})">×</span></div>`).join(''); }
-function renderBTags(){ document.getElementById('bTags').innerHTML=cfg.buildings.map((b,i)=>`<div class="tag">${b}<span class="tag-x" onclick="remB(${i})">×</span></div>`).join(''); }
-function addW(){ const v=document.getElementById('newW').value.trim(); if(!v)return; cfg.workers.push(v); document.getElementById('newW').value=''; renderWTags(); }
-function remW(i){ cfg.workers.splice(i,1); renderWTags(); }
-function addB(){ const v=document.getElementById('newB').value.trim(); if(!v)return; cfg.buildings.push(v); document.getElementById('newB').value=''; renderBTags(); }
-function remB(i){ cfg.buildings.splice(i,1); renderBTags(); }
-function saveAll(){
-  cfg.fmEmail=document.getElementById('fmEmail').value.trim();
-  localStorage.setItem('apdc_rep',JSON.stringify(cfg));
-  showAlert('admAlert','All config saved!','ok');
-}
-function showAlert(id,msg,type){ const el=document.getElementById(id); el.textContent=msg; el.className=`alert ${type}`; el.style.display=''; setTimeout(()=>el.style.display='none',4000); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 </script>
 </body>
 </html>
